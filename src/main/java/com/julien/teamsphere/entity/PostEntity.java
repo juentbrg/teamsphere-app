@@ -2,7 +2,7 @@ package com.julien.teamsphere.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -22,11 +22,11 @@ public class PostEntity {
     public String postContent;
 
     @Column(name = "POST_DATE_PUBLICATION")
-    public LocalDateTime postDatePublication;
+    public Date postDatePublication;
 
     public PostEntity() { }
 
-    public PostEntity(int postId, UserEntity user, String postContent, LocalDateTime postDatePublication) {
+    public PostEntity(int postId, UserEntity user, String postContent, Date postDatePublication) {
         this.postId = postId;
         this.user = user;
         this.postContent = postContent;
@@ -57,11 +57,11 @@ public class PostEntity {
         this.postContent = postContent;
     }
 
-    public LocalDateTime getPostDatePublication() {
+    public Date getPostDatePublication() {
         return postDatePublication;
     }
 
-    public void setPostDatePublication(LocalDateTime postDatePublication) {
+    public void setPostDatePublication(Date postDatePublication) {
         this.postDatePublication = postDatePublication;
     }
 

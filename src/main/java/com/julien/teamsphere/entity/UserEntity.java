@@ -3,6 +3,7 @@ package com.julien.teamsphere.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -34,8 +35,11 @@ public class UserEntity {
     @Column(name = "USER_PASSWORD")
     public String password;
 
+    @Column(name = "USER_EMAIL")
+    public String userEmail;
+
     @Column(name = "USER_INSCRIPTION_DATE")
-    public LocalDateTime userInscriptionDate;
+    public Date userInscriptionDate;
 
     @Column(name = "USER_BIRTH_DATE")
     public String userBirthDate;
@@ -49,12 +53,13 @@ public class UserEntity {
 
     public UserEntity() { }
 
-    public UserEntity(int userId, String userFirstName, String userLastName, String userName, String password, LocalDateTime userInscriptionDate, String userBirthDate, Gender userGender, String userProfilePicture) {
+    public UserEntity(int userId, String userFirstName, String userLastName, String userName, String password, String userEmail, Date userInscriptionDate, String userBirthDate, Gender userGender, String userProfilePicture) {
         this.userId = userId;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.userName = userName;
         this.password = password;
+        this.userEmail = userEmail;
         this.userInscriptionDate = userInscriptionDate;
         this.userBirthDate = userBirthDate;
         this.userGender = userGender;
@@ -101,11 +106,11 @@ public class UserEntity {
         this.password = password;
     }
 
-    public LocalDateTime getUserInscriptionDate() {
+    public Date getUserInscriptionDate() {
         return userInscriptionDate;
     }
 
-    public void setUserInscriptionDate(LocalDateTime userInscriptionDate) {
+    public void setUserInscriptionDate(Date userInscriptionDate) {
         this.userInscriptionDate = userInscriptionDate;
     }
 
@@ -133,6 +138,14 @@ public class UserEntity {
         this.userProfilePicture = userProfilePicture;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -148,12 +161,13 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "userEntity{" +
+        return "UserEntity{" +
                 "userId=" + userId +
                 ", userFirstName='" + userFirstName + '\'' +
                 ", userLastName='" + userLastName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", userEmail='" + userEmail + '\'' +
                 ", userInscriptionDate=" + userInscriptionDate +
                 ", userBirthDate='" + userBirthDate + '\'' +
                 ", userGender=" + userGender +
