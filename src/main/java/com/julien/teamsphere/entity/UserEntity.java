@@ -3,13 +3,12 @@ package com.julien.teamsphere.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "USER")
 
-public class userEntity {
+public class UserEntity {
 
     public enum Gender {
         Male,
@@ -48,9 +47,9 @@ public class userEntity {
     @Column(name = "USER_PROFILE_PICTURE")
     public String userProfilePicture;
 
-    public userEntity() { }
+    public UserEntity() { }
 
-    public userEntity(int userId, String userFirstName, String userLastName, String userName, String password, LocalDateTime userInscriptionDate, String userBirthDate, Gender userGender, String userProfilePicture) {
+    public UserEntity(int userId, String userFirstName, String userLastName, String userName, String password, LocalDateTime userInscriptionDate, String userBirthDate, Gender userGender, String userProfilePicture) {
         this.userId = userId;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
@@ -138,7 +137,7 @@ public class userEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        userEntity that = (userEntity) o;
+        UserEntity that = (UserEntity) o;
         return userId == that.userId;
     }
 

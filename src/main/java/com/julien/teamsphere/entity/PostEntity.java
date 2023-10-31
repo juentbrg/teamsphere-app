@@ -1,14 +1,13 @@
 package com.julien.teamsphere.entity;
 
 import jakarta.persistence.*;
-import com.julien.teamsphere.entity.userEntity;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "POST")
-public class postEntity {
+public class PostEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +16,7 @@ public class postEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private userEntity user;
+    private UserEntity user;
 
     @Column(name = "POST_CONTENT")
     public String postContent;
@@ -25,9 +24,9 @@ public class postEntity {
     @Column(name = "POST_DATE_PUBLICATION")
     public LocalDateTime postDatePublication;
 
-    public postEntity() { }
+    public PostEntity() { }
 
-    public postEntity(int postId, userEntity user, String postContent, LocalDateTime postDatePublication) {
+    public PostEntity(int postId, UserEntity user, String postContent, LocalDateTime postDatePublication) {
         this.postId = postId;
         this.user = user;
         this.postContent = postContent;
@@ -42,11 +41,11 @@ public class postEntity {
         this.postId = postId;
     }
 
-    public userEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(userEntity user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -70,7 +69,7 @@ public class postEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        postEntity that = (postEntity) o;
+        PostEntity that = (PostEntity) o;
         return postId == that.postId;
     }
 
