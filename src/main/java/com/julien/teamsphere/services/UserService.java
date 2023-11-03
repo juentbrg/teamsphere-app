@@ -5,6 +5,8 @@ import com.julien.teamsphere.DTO.UserPostDTO;
 import com.julien.teamsphere.entity.UserEntity;
 import com.julien.teamsphere.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -48,32 +52,34 @@ public class UserService {
     }
 
     @Transactional
-    public boolean save(UserPostDTO userDTO) throws Exception {
+    public void save(UserPostDTO userDTO) throws Exception {
         Optional<UserEntity> emailExists = userRepository.findByUserEmail(userDTO.getUserEmail());
         Optional<UserEntity> usernameExists = userRepository.findByUserName(userDTO.getUserName());
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
         if (emailExists.isPresent()) {
-            String existingEmail = "L'email renseignée est déjà attribuée à un compte.";
-            return false;
+            throw new Exception("Email already taken.");
         }
         if (usernameExists.isPresent()) {
-            String existingUserName = "Le nom d'utilisateur est déjà pris.";
-            return false;
+            throw new Exception("Username already taken.");
         }
 
         UserEntity user = new UserEntity();
-        Date currentTime = new Date();
         user.setUserFirstName(userDTO.getUserFirstName());
         user.setUserLastName(userDTO.getUserLastName());
         user.setUserName(userDTO.getUserName());
         String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(hashedPassword);
-        user.setUserEmail(userDTO.getUserEmail());
-        user.setUserInscriptionDate(currentTime);
+        if (userDTO.getUserEmail().matches(emailRegex)) {
+            user.setUserEmail(userDTO.getUserEmail());
+        } else {
+            throw new Exception("Email is not valid");
+        }
+        user.setUserInscriptionDate(new Date());
         user.setUserBirthDate(userDTO.getUserBirthDate());
         user.setUserGender(userDTO.getUserGender());
         user.setUserProfilePicture(userDTO.getUserProfilePicture());
-        return true;
+        userRepository.save(user);
     }
 
     @Transactional

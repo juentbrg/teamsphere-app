@@ -15,7 +15,7 @@ public class PostEntity {
     private int postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "AUTHOR_ID")
     private UserEntity user;
 
     @Column(name = "POST_CONTENT")

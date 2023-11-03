@@ -49,16 +49,18 @@ public class PostService {
     }
 
     @Transactional
-    public void save(PostDTO postDTO) {
+    public boolean save(PostDTO postDTO) {
         PostEntity post = new PostEntity();
-        Date currentDate = new Date();
         Optional<UserEntity> userOpt = userRepository.findById(postDTO.getUser());
 
         if (userOpt.isPresent()) {
             post.setUser(userOpt.get());
             post.setPostContent(postDTO.getPostContent());
-            post.setPostDatePublication(currentDate);
+            post.setPostDatePublication(new Date());
+            postRepository.save(post);
+            return true;
         }
+        return false;
     }
 
     @Transactional
@@ -73,13 +75,16 @@ public class PostService {
     }
 
     @Transactional
-    public void updateById(int id, PostDTO postDTO) {
+    public boolean updateById(int id, PostDTO postDTO) {
         Optional<PostEntity> postOpt = postRepository.findById(id);
         if (postOpt.isPresent()) {
             PostEntity post = postOpt.get();
             if (null != postDTO.getPostContent()) {
                 post.setPostContent(postDTO.getPostContent());
             }
+            return true;
+        } else {
+            return false;
         }
     }
 }
