@@ -79,6 +79,7 @@ public class UserService {
         user.setUserBirthDate(userDTO.getUserBirthDate());
         user.setUserGender(userDTO.getUserGender());
         user.setUserProfilePicture(userDTO.getUserProfilePicture());
+        user.setUserRole("USER");
         userRepository.save(user);
     }
 
@@ -108,7 +109,8 @@ public class UserService {
                 user.setUserName(userDTO.getUserName());
             }
             if (null != userDTO.getPassword()) {
-                user.setPassword(userDTO.getPassword());
+                String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
+                user.setPassword(hashedPassword);
             }
             if (null != userDTO.getUserEmail()) {
                 user.setUserEmail(userDTO.getUserEmail());

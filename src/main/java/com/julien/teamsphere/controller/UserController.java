@@ -25,12 +25,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/get")
     public List<UserGetDTO> findAllUser() {
         return userService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<UserGetDTO> findByUserId(@PathVariable int id) {
         UserGetDTO user = userService.findById(id);
         if (null != user) {
@@ -59,7 +59,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable int id) {
         logger.info("deleteUserById called with id {}", id);
         boolean isDeleted = userService.deleteById(id);

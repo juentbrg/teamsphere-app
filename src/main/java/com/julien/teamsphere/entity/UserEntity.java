@@ -51,9 +51,12 @@ public class UserEntity {
     @Column(name = "USER_PROFILE_PICTURE")
     public String userProfilePicture;
 
+    @Column(name = "USER_ROLE")
+    public String userRole;
+
     public UserEntity() { }
 
-    public UserEntity(int userId, String userFirstName, String userLastName, String userName, String password, String userEmail, Date userInscriptionDate, String userBirthDate, Gender userGender, String userProfilePicture) {
+    public UserEntity(int userId, String userFirstName, String userLastName, String userName, String password, String userEmail, Date userInscriptionDate, String userBirthDate, Gender userGender, String userProfilePicture, String userRole) {
         this.userId = userId;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
@@ -64,6 +67,7 @@ public class UserEntity {
         this.userBirthDate = userBirthDate;
         this.userGender = userGender;
         this.userProfilePicture = userProfilePicture;
+        this.userRole = userRole;
     }
 
     public int getUserId() {
@@ -106,6 +110,14 @@ public class UserEntity {
         this.password = password;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
     public Date getUserInscriptionDate() {
         return userInscriptionDate;
     }
@@ -138,12 +150,12 @@ public class UserEntity {
         this.userProfilePicture = userProfilePicture;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     @Override
@@ -172,6 +184,7 @@ public class UserEntity {
                 ", userBirthDate='" + userBirthDate + '\'' +
                 ", userGender=" + userGender +
                 ", userProfilePicture='" + userProfilePicture + '\'' +
+                ", userRole='" + userRole + '\'' +
                 '}';
     }
 }
