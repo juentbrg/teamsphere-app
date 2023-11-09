@@ -37,43 +37,43 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable);
-//                .authorizeHttpRequests((authorizeHttpRequests) -> {
-//                    authorizeHttpRequests
-//                            .requestMatchers(
-//                                    new AntPathRequestMatcher("api/private/user/register")
-//                            ).permitAll()
-//                            .requestMatchers(
-//                                    new AntPathRequestMatcher("api/private/user/get/**"),
-//                                    new AntPathRequestMatcher("api/private/user/delete/**"),
-//                                    new AntPathRequestMatcher("api/private/user/update/**")
-//                            )
-//                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-//                            .requestMatchers(
-//                                    new AntPathRequestMatcher("api/user/get")
-//                            )
-//                            .hasAuthority("ROLE_ADMIN");
-//                })
-//                .sessionManagement((sessionManagement) -> sessionManagement
-//                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//                        .invalidSessionStrategy((request, response) -> {
-//                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//                            response.getWriter().write("{\"message\":\"Session is invalid or has expired\"}");
-//                        })
-//                        .sessionFixation().migrateSession()
-//                        .maximumSessions(1)
-//                )
-//                .httpBasic(AbstractHttpConfigurer::disable)
-//                .formLogin(AbstractHttpConfigurer::disable)
-//                .csrf((csrf) -> csrf
-//                        .csrfTokenRepository(getCsrfTokenRepository())
-//                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
-//                        .ignoringRequestMatchers(
-//                                new AntPathRequestMatcher("/api/public/**")
-//                        )
-//                ).addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-//                .headers((headers) -> headers.frameOptions((HeadersConfigurer.FrameOptionsConfig::disable)));
+//                .csrf(AbstractHttpConfigurer::disable);
+                .authorizeHttpRequests((authorizeHttpRequests) -> {
+                    authorizeHttpRequests
+                            .requestMatchers(
+                                    new AntPathRequestMatcher("api/private/user/register")
+                            ).permitAll()
+                            .requestMatchers(
+                                    new AntPathRequestMatcher("api/private/user/get/**"),
+                                    new AntPathRequestMatcher("api/private/user/delete/**"),
+                                    new AntPathRequestMatcher("api/private/user/update/**")
+                            )
+                                .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                            .requestMatchers(
+                                    new AntPathRequestMatcher("api/user/get")
+                            )
+                            .hasAuthority("ROLE_ADMIN");
+                })
+                .sessionManagement((sessionManagement) -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .invalidSessionStrategy((request, response) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.getWriter().write("{\"message\":\"Session is invalid or has expired\"}");
+                        })
+                        .sessionFixation().migrateSession()
+                        .maximumSessions(1)
+                )
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .csrf((csrf) -> csrf
+                        .csrfTokenRepository(getCsrfTokenRepository())
+                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
+                        .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/api/public/**")
+                        )
+                ).addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .headers((headers) -> headers.frameOptions((HeadersConfigurer.FrameOptionsConfig::disable)));
         return http.build();
     }
 

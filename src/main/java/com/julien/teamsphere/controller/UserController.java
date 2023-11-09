@@ -3,6 +3,7 @@ package com.julien.teamsphere.controller;
 import com.julien.teamsphere.DTO.UserGetDTO;
 import com.julien.teamsphere.DTO.UserPostDTO;
 import com.julien.teamsphere.services.UserService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -25,6 +26,24 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/ping")
+    public ResponseEntity<Void> ping() {
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<Boolean> validateSession(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("JSESSIONID".equals(cookie.getName()) && cookie.getValue() != null) {
+                    return ResponseEntity.ok(true);
+                }
+            }
+        }
+        return ResponseEntity.ok(false);
     }
 
     @GetMapping("/get")
