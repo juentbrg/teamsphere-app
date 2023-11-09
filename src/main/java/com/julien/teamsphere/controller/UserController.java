@@ -3,6 +3,8 @@ package com.julien.teamsphere.controller;
 import com.julien.teamsphere.DTO.UserGetDTO;
 import com.julien.teamsphere.DTO.UserPostDTO;
 import com.julien.teamsphere.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,20 @@ public class UserController {
             } else if ("Email is not valid".equals(e.getMessage())) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\": \"Email is not valid\"}");
             } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"An error has occurred\"}");
+            }
+        }
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<String> loginUser(HttpServletRequest request) {
+        try {
+            userService.authenticateUser(request.getParameter("email"), request.getParameter("password"));
+            return ResponseEntity.ok("{\"message\": \"User authenticated successfully\"}");
+        } catch (Exception e) {
+            if ("Wrong email or password".equals(e.getMessage())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Wrong email or password\"}");
+            }else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"An error has occurred\"}");
             }
         }

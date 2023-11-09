@@ -8,13 +8,18 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.security.Security;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -49,6 +54,19 @@ public class UserService {
             return new UserGetDTO(userOpt.get());
         }
         return null;
+    }
+
+    @Transactional
+    public void authenticateUser(String email, String password) throws BadCredentialsException {
+        Optional<UserEntity> userOpt = userRepository.findByUserEmail(email);
+        if (userOpt.isEmpty() || !passwordEncoder.matches(password, userOpt.get().getPassword())) {
+            throw new BadCredentialsException("Wrong email or password");
+        }
+        UserEntity user = userOpt.get();
+        Collection<GrantedAuthority> authorities = new HashSet<>();
+        String role = user.getUserRole();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getUserEmail(), user.getPassword(), authorities));
     }
 
     @Transactional

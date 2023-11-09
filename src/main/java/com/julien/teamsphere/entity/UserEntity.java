@@ -15,7 +15,7 @@ public class UserEntity {
         Male,
         Female,
         Other,
-        Not_pronounced
+        notPronounced
     }
 
     @Id
