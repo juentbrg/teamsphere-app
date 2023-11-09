@@ -41,7 +41,9 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
                     authorizeHttpRequests
                             .requestMatchers(
-                                    new AntPathRequestMatcher("api/private/user/register")
+                                    new AntPathRequestMatcher("api/private/user/register"),
+                                    new AntPathRequestMatcher("api/private/user/ping"),
+                                    new AntPathRequestMatcher("api/private/user/validate")
                             ).permitAll()
                             .requestMatchers(
                                     new AntPathRequestMatcher("api/private/user/get/**"),
